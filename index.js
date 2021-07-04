@@ -23,10 +23,11 @@ mongoose.connect(
 
 morgan.token('body', function (req, res) { return req.headers['content-type'] })
 
+morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 // setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan(':url :method :body', { stream: accessLogStream }))
 
 //Middleware
 app.use(express.json()); 

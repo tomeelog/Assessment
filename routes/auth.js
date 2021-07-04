@@ -30,8 +30,6 @@ router.post('/register', async (req, res) => {
         res.status(400).send(err);
         console.log(err);
     }
-    //  res.send('Register');
-
 });
 
 router.post('/login', async (req, res) => {
@@ -50,9 +48,9 @@ router.post('/login', async (req, res) => {
     if (!validPass) return res.status(400).send('password not valid');
 
     //Create token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+    const token = jwt.sign({_id: user._id, name: user.name}, process.env.TOKEN_SECRET,{ expiresIn: '120s'});
     res.header('auth-token', token).send(token);
-    //res.send('Logged in');
+    
 });
 
 module.exports = router; 
